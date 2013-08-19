@@ -156,6 +156,18 @@
         }
 
         [Fact]
+        public void Should_match_slash_in_regex()
+        {
+            // Given
+            // When
+            var result = this.browser.Get("/regex/withslash");
+
+            // Then
+            result.StatusCode.ShouldEqual(HttpStatusCode.OK);
+            result.Body.AsString().ShouldEqual("/regex/withslash");
+        }
+
+        [Fact]
         public void Should_handle_head_requests()
         {
             // Given
@@ -285,6 +297,8 @@
                 {
                     return string.Format("RegEx {0} {1}", x.foo, x.bar);
                 };
+
+                Get["/(?<test>regex/withslash)"] = _ => _.test;
             }
         }
     }
